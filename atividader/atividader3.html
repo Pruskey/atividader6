@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .todo-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .todo-container input, .todo-container button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+        .todo-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .todo-container li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .todo-container li.completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .todo-container button {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="todo-container">
+        <input type="text" id="new-task" placeholder="Nova tarefa">
+        <button id="add-task">Adicionar</button>
+        <ul id="task-list"></ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const taskInput = document.getElementById('new-task');
+            const addTaskButton = document.getElementById('add-task');
+            const taskList = document.getElementById('task-list');
+
+            // Carregar tarefas do localStorage
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+            function saveTasks() {
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+
+            function renderTasks() {
+                taskList.innerHTML = '';
+                tasks.forEach((task, index) => {
+                    const li = document.createElement('li');
+                    li.className = task.completed ? 'completed' : '';
+                    li.innerHTML = `
+                        <span>${task.text}</span>
+                        <div>
+                            <button onclick="completeTask(${index})">Concluir</button>
+                            <button onclick="deleteTask(${index})">Excluir</button>
+                        </div>
+                    `;
+                    taskList.appendChild(li);
+                });
+            }
+
+            window.completeTask = function(index) {
+                tasks[index].completed = !tasks[index].completed;
+                saveTasks();
+                renderTasks();
+            };
+
+            window.deleteTask = function(index) {
+                tasks.splice(index, 1);
+                saveTasks();
+                renderTasks();
+            };
+
+            addTaskButton.addEventListener('click', function() {
+                const taskText = taskInput.value.trim();
+                if (taskText !== '') {
+                    tasks.push({ text: taskText, completed: false });
+                    saveTasks();
+                    renderTasks();
+                    taskInput.value = '';
+                }
+            });
+
+            renderTasks();
+        });
+    </script>
+</body>
+</html>

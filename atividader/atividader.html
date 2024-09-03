@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de Input e Botão</title>
+    <script>
+        function exibirMensagem() {
+            var texto = document.getElementById("meuTexto").value;
+            var mensagem = "Você digitou: " + texto;
+            document.getElementById("mensagem").innerText = mensagem;
+        }
+    </script>
+</head>
+<body>
+    <h1>Digite algo e clique no botão</h1>
+    <input type="text" id="meuTexto">
+    <button onclick="exibirMensagem()">Exibir Mensagem</button>
+    <p id="mensagem"></p>
+</body>
+</html>

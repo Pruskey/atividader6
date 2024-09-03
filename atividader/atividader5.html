@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Adivinhação</title>
+</head>
+<body>
+    <h1>Jogo de Adivinhação</h1>
+    <p>Tente adivinhar o número entre 1 e 100!</p>
+    <input type="number" id="guessInput" placeholder="Digite seu palpite">
+    <button onclick="checkGuess()">Enviar</button>
+    <p id="resultMessage"></p>
+    <button onclick="resetGame()">Reiniciar Jogo</button>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+        function checkGuess() {
+            const userGuess = document.getElementById('guessInput').value;
+            const resultMessage = document.getElementById('resultMessage');
+
+            if (userGuess < randomNumber) {
+                resultMessage.textContent = 'Muito baixo! Tente novamente.';
+            } else if (userGuess > randomNumber) {
+                resultMessage.textContent = 'Muito alto! Tente novamente.';
+            } else {
+                resultMessage.textContent = 'Parabéns! Você acertou!';
+            }
+        }
+
+        function resetGame() {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            document.getElementById('guessInput').value = '';
+            document.getElementById('resultMessage').textContent = '';
+        }
+    </script>
+</body>
+</html>
